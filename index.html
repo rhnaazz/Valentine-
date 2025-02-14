@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine's Day</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(45deg, #ffb6c1, #ffc0cb);
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .floating-hearts {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 20px;
+            animation: float 6s linear infinite;
+            opacity: 0.7;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) scale(0);
+                opacity: 0;
+            }
+            50% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-20vh) scale(1);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            text-align: center;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            max-width: 90%;
+            width: 400px;
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            color: white;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .description {
+            color: white;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .btn {
+            background: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: #ff69b4;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .chocolate {
+            position: fixed;
+            font-size: 30px;
+            pointer-events: none;
+            animation: fall 2s linear forwards;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-50vh) rotate(0deg);
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+            }
+        }
+
+        .message-container {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 600px;
+            z-index: 100;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+
+        .message-container.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .message-card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: opacity 0.5s, transform 0.5s;
+        }
+
+        .message-card.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .message-content {
+            color: #ff69b4;
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .nav-btn {
+            background: #ff69b4;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.3s;
+            flex: 1;
+        }
+
+        .nav-btn:hover {
+            background: #ff1493;
+            transform: scale(1.05);
+        }
+
+        .nav-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .audio-controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 1000;
+        }
+
+        .audio-controls:hover {
+            background: rgba(255, 255, 255, 1);
+        }
+
+        .progress {
+            text-align: center;
+            color: #ff69b4;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-hearts"></div>
+    <div class="message-container">
+        <div class="message-card">
+            <div class="message-content"></div>
+            <div class="nav-buttons">
+                <button class="nav-btn" id="prevBtn">← Sebelumnya</button>
+                <button class="nav-btn" id="nextBtn">Selanjutnya →</button>
+            </div>
+            <div class="progress"></div>
+        </div>
+    </div>
+    <div class="container">
+        <h1>Happy Valentine's Day Yaw</h1>
+        <p class="description">Cuihh gak dapat coklat kan kamu pasti. Karena aku baik ini aku kasih coklat. Coba pencet Tombol dibawah huu🌹✨</p>
+        <button class="btn">
+            Klik Aku ❤️
+        </button>
+    </div>
+
+    <div class="audio-controls" onclick="toggleAudio()">🔊</div>
+    <audio id="bgMusic" loop>
+        <source src="paul.mp3" type="audio/mp3">
+    </audio>
+
+    <script>
+        // Messages yang akan muncul
+        const messages = [
+            `Hai Kentut! 💝 
+            
+            How's your day, hope you doing finee okayy? Don't push your self to hard. Be safe and Take care`,
+            
+            `Do you know? 💭
+            
+           to be loved. You don't have to be the most talented to be appreciated. You don't need to have everything and do anything to feel 
+           like you are enough. What truly matters is being surrounded by people who see you for who you are and love you just the same. Your passions,no matter how simple,are still worth
+           something.`,
+            
+            `I wish you could see yourself from my perspective so you'll know and see for yourself that you are way too beautiful inside and out. I literally just adore you big time, and everything about you 
+            is just so perfect. There are no words that i can use to describe how much love I have for you.`,
+            
+            `Ciahh gak dapat apa2 yaa hari ini wkwk. Tapi gak mungkin sih, soalnya kamu seleb pasti dapet sih huu✨
+            
+            Kangen weh sama luhk. Sehat-sehat kentut, semangat kuliahnya. Take Care Yaw.`,
+            
+            `Last 💖
+            in case nobody's told you yet today, i love you and good job keep going.`
+            
+           
+        ];
+
+        let currentMessageIndex = 0;
+        let isMessageDisplayed = false;
+
+        const messageContainer = document.querySelector('.message-container');
+        const messageCard = document.querySelector('.message-card');
+        const messageContent = document.querySelector('.message-content');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const progress = document.querySelector('.progress');
+
+        function updateMessage() {
+            messageContent.innerHTML = messages[currentMessageIndex];
+            progress.textContent = `${currentMessageIndex + 1} / ${messages.length}`;
+            
+            // Update button states
+            prevBtn.disabled = currentMessageIndex === 0;
+            nextBtn.disabled = currentMessageIndex === messages.length - 1;
+            
+            // Animate card
+            messageCard.classList.remove('show');
+            setTimeout(() => {
+                messageCard.classList.add('show');
+            }, 50);
+        }
+
+        prevBtn.addEventListener('click', () => {
+            if (currentMessageIndex > 0) {
+                currentMessageIndex--;
+                updateMessage();
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (currentMessageIndex < messages.length - 1) {
+                currentMessageIndex++;
+                updateMessage();
+            }
+        });
+
+        // Handle click button
+        document.querySelector('.btn').addEventListener('click', () => {
+            if (!isMessageDisplayed) {
+                messageContainer.classList.add('active');
+                updateMessage();
+                isMessageDisplayed = true;
+            }
+
+            // Create chocolate
+            const chocolate = document.createElement('div');
+            chocolate.className = 'chocolate';
+            chocolate.innerHTML = '🍫';
+            chocolate.style.left = Math.random() * window.innerWidth + 'px';
+            document.body.appendChild(chocolate);
+
+            setTimeout(() => {
+                chocolate.remove();
+            }, 2000);
+        });
+
+        // Create floating hearts
+        function createFloatingHearts() {
+            const container = document.querySelector('.floating-hearts');
+            for (let i = 0; i < 20; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.innerHTML = '❤️';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDelay = Math.random() * 5 + 's';
+                container.appendChild(heart);
+            }
+        }
+
+        // Audio controls
+        const audio = document.getElementById('bgMusic');
+        const audioControl = document.querySelector('.audio-controls');
+        let isPlaying = false;
+
+        function toggleAudio() {
+            if (isPlaying) {
+                audio.pause();
+                audioControl.innerHTML = '🔈';
+            } else {
+                audio.play();
+                audioControl.innerHTML = '🔊';
+            }
+            isPlaying = !isPlaying;
+        }
+
+        // Initialize
+        createFloatingHearts();
+
+        // Add click event listener to start audio (browser requirement)
+        document.body.addEventListener('click', function() {
+            if (!isPlaying) {
+                audio.play();
+                audioControl.innerHTML = '🔊';
+                isPlaying = true;
+            }
+        }, { once: true });
+    </script>
+</body>
+</html>
